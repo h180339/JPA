@@ -14,25 +14,36 @@ public class Ansatt {
 	private String brukerNavn;
 	private String forNavn;
 	private String etterNavn;
-	private LocalDate ansettelseDato;
+	private LocalDate datoAns;
 	private String stilling;
-	private int maanedsloen;
-	private String avdeling;
+	private int maanedslonn;
+
+	@Override
+	public String toString() {
+		return "Ansatt{" +
+			"brukerNavn='" + brukerNavn + '\'' +
+			", forNavn='" + forNavn + '\'' +
+			", etterNavn='" + etterNavn + '\'' +
+			", datoAns=" + datoAns +
+			", stilling='" + stilling + '\'' +
+			", maanedslonn=" + maanedslonn +
+			'}';
+	}
 
 	public Ansatt() {
 
 	}
 
 	public Ansatt(String brukerNavn, String forNavn, String etterNavn, LocalDate ansettelseDato,
-		String stilling, int maanedsloen, String avdeling) {
+		String stilling, int maanedslonn, String avdeling) {
 
 		this.brukerNavn = brukerNavn;
 		this.forNavn = forNavn;
 		this.etterNavn = etterNavn;
-		this.ansettelseDato = ansettelseDato;
+		this.datoAns = ansettelseDato;
 		this.stilling = stilling;
-		this.maanedsloen = maanedsloen;
-		this.avdeling = avdeling;
+		this.maanedslonn = maanedslonn;
+
 	}
 
 	public String getBrukerNavn() {
@@ -60,11 +71,11 @@ public class Ansatt {
 	}
 
 	public LocalDate getAnsettelseDato() {
-		return ansettelseDato;
+		return datoAns;
 	}
 
 	public void setAnsettelseDato(LocalDate ansettelseDato) {
-		this.ansettelseDato = ansettelseDato;
+		this.datoAns = ansettelseDato;
 	}
 
 	public String getStilling() {
@@ -76,18 +87,12 @@ public class Ansatt {
 	}
 
 	public int getMaanedsloen() {
-		return maanedsloen;
+		return maanedslonn;
 	}
 
 	public void setMaanedsloen(int maanedsloen) {
-		this.maanedsloen = maanedsloen;
+		this.maanedslonn = maanedsloen;
 	}
 
-	public String getAvdeling() {
-		return avdeling;
-	}
 
-	public void setAvdeling(String avdeling) {
-		this.avdeling = avdeling;
-	}
 }

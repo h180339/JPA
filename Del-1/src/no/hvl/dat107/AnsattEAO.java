@@ -38,6 +38,19 @@ public class AnsattEAO {
 		}
 		return gikkdet;
 	}
+
+	public Ansatt finnVitnemalPaaPK(int ansNr) {
+
+		EntityManager em = emf.createEntityManager();
+
+		Ansatt a1 = null;
+		try {
+			a1 = em.find(Ansatt.class, "Eirik");
+		} finally {
+			em.close();
+		}
+		return a1;
+	}
 /*
 	public Karakter finnEnPaaMangesidenMedMatchPaaParametre() {
 
