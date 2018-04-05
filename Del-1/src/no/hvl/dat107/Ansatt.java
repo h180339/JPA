@@ -1,9 +1,12 @@
 package no.hvl.dat107;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDate;
+
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "Ansatt", schema = "oblig3")
@@ -11,6 +14,7 @@ import java.time.LocalDate;
 public class Ansatt {
 
 	@Id
+	@GeneratedValue(strategy = IDENTITY)
 	private int aid;
 	private String brukerNavn;
 	private String forNavn;
