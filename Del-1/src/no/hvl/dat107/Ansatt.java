@@ -11,6 +11,7 @@ import java.time.LocalDate;
 public class Ansatt {
 
 	@Id
+	private int aid;
 	private String brukerNavn;
 	private String forNavn;
 	private String etterNavn;
@@ -35,7 +36,7 @@ public class Ansatt {
 	}
 
 	public Ansatt(String brukerNavn, String forNavn, String etterNavn, LocalDate ansettelseDato,
-		String stilling, int maanedslonn, String avdeling) {
+		String stilling, int maanedslonn) {
 
 		this.brukerNavn = brukerNavn;
 		this.forNavn = forNavn;

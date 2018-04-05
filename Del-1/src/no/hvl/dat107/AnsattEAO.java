@@ -45,7 +45,7 @@ public class AnsattEAO {
 
 		Ansatt a1 = null;
 		try {
-			a1 = em.find(Ansatt.class, "Eirik");
+			a1 = em.find(Ansatt.class, ansNr);
 		} finally {
 			em.close();
 		}
