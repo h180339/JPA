@@ -3,6 +3,7 @@ package no.hvl.dat107;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 import java.time.LocalDate;
 
@@ -10,6 +11,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "Ansatt", schema = "oblig3")
+
 
 public class Ansatt {
 

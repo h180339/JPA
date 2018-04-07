@@ -11,7 +11,7 @@ public class Main {
 		Ansatt a2 = aeo.finnVitnemalPaaPK(1);
 		System.out.println(a2);
 
-		Ansatt a3 = new Ansatt("GrimMyBoi", "GrimMyBoi", "GrimMyBoi", LocalDate.now(), "pro programmer", 20);
+		/*Ansatt a3 = new Ansatt("GrimMyBoi", "GrimMyBoi", "GrimMyBoi", LocalDate.now(), "pro programmer", 20);
 		System.out.println(a3);
 
 		aeo.leggTilAnsatt(a3);
@@ -20,6 +20,7 @@ public class Main {
 
 		System.out.println("utigjen");
 		System.out.println(utigjen);
+		*/
 	}
 
 }

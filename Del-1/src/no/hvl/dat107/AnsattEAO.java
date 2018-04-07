@@ -6,6 +6,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.time.LocalDate;
+import java.util.List;
 
 public class AnsattEAO {
 
@@ -45,6 +46,14 @@ public class AnsattEAO {
 
 		Ansatt a1 = null;
 		try {
+
+			String queryString = "SELECT t FROM Ansatt t " + "WHERE t.stilling = :stilling";
+			TypedQuery<Ansatt> sporring = em.createQuery(queryString, Ansatt.class);
+			sporring.setParameter("stilling", "være best");
+			System.out.println("jeje");
+			List<Ansatt> resulatat = sporring.getResultList();
+			System.out.println(resulatat);
+			System.out.println();
 			a1 = em.find(Ansatt.class, ansNr);
 		} finally {
 			em.close();
