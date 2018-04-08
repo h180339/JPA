@@ -3,6 +3,7 @@ package no.hvl.dat107;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.time.LocalDate;
@@ -40,69 +41,122 @@ public class AnsattEAO {
 		return gikkdet;
 	}
 
-	public Ansatt finnVitnemalPaaPK(int ansNr) {
+	public Ansatt finnAnsattPaaPK(int ansNr) {
 
 		EntityManager em = emf.createEntityManager();
 
 		Ansatt a1 = null;
 		try {
-
-			String queryString = "SELECT t FROM Ansatt t " + "WHERE t.stilling = :stilling";
-			TypedQuery<Ansatt> sporring = em.createQuery(queryString, Ansatt.class);
-			sporring.setParameter("stilling", "være best");
-			System.out.println("jeje");
-			List<Ansatt> resulatat = sporring.getResultList();
-			System.out.println(resulatat);
-			System.out.println();
 			a1 = em.find(Ansatt.class, ansNr);
 		} finally {
 			em.close();
 		}
 		return a1;
 	}
-/*
-	public Karakter finnEnPaaMangesidenMedMatchPaaParametre() {
 
-		String queryString = "";
+	public Ansatt finnAnsattPaaNavn(String brukernavn) {
+
+		String queryString = "SELECT t FROM Ansatt t "
+			+ "WHERE t.brukerNavn = :navn";
 
 		EntityManager em = emf.createEntityManager();
 
-		Karakter mange = null;
+		Ansatt ansatt = null;
 		try {
-			TypedQuery<Karakter> query = em.createQuery(queryString, Karakter.class);
-			query.setParameter("???", null);
-			query.setParameter("???", null);
-			mange = query.getSingleResult();
+			TypedQuery<Ansatt> query
+				= em.createQuery(queryString, Ansatt.class);
+			query.setParameter("navn", brukernavn);
+			ansatt = query.getSingleResult();
+
+		} catch (NoResultException e) {
+			// e.printStackTrace();
 		} finally {
 			em.close();
 		}
-		return mange;
+		return ansatt;
 	}
 
-	public void registrerKarakterForStudent(String kursKode, LocalDate eksDato, String kar, int studNr) {
-
+	public void slettAnsatt(Ansatt ansatt) {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
-
 		try {
 			tx.begin();
 
-			Vitnemal vitnemal = em.find(Vitnemal.class, studNr);
+			//NB! Ikke nok med em.merge(liste); Det er den
+			//returnerte listen som er managed.
+			ansatt = em.merge(ansatt);
 
-			Karakter karakter = new Karakter(kursKode, eksDato, kar, vitnemal);
-
-			em.persist(karakter);
-
-			vitnemal.addKarakter(karakter);
+			em.remove(ansatt);
 
 			tx.commit();
-
 		} catch (Throwable e) {
 			e.printStackTrace();
 			tx.rollback();
 		} finally {
 			em.close();
 		}
-	} */
+	}
+	public void oppdaterAnsatt(Ansatt ansatt) {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		try {
+			tx.begin();
+
+			em.merge(ansatt);
+
+			tx.commit();
+		} catch (Throwable e) {
+			e.printStackTrace();
+			tx.rollback();
+		} finally {
+			em.close();
+		}
+	}
+	public void skrivUtTabell() {
+
+		String queryString = "SELECT t FROM Ansatt t ";
+
+		EntityManager em = emf.createEntityManager();
+
+		List<Ansatt> ansatte = null;
+		try {
+			TypedQuery<Ansatt> query = em.createQuery(queryString, Ansatt.class);
+			ansatte = query.getResultList();
+			for(Ansatt ansatt : ansatte) {
+				System.out.println(ansatt);
+			}
+
+		} finally {
+			em.close();
+		}
+	}
+	public void oppdaterAnsattAvdeling(Ansatt ansatt, int avdNr) {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+
+		if(ansatt.getAvd().getaId().getAid() != ansatt.getAid()) { //sammenligner sin egen avdelingsjefId med sin egen id
+
+			AvdelingEAO avdelingEAO = new AvdelingEAO();
+			Avdeling avdeling = avdelingEAO.finnAvdelingPK(avdNr);
+			ansatt.setAvd(avdeling);
+			try {
+				tx.begin();
+
+				em.merge(ansatt);
+
+				tx.commit();
+			} catch (Throwable e) {
+				e.printStackTrace();
+				tx.rollback();
+			} finally {
+				em.close();
+			}
+			System.out.println("success!, oppdaterte den ansatte sin avdeling");
+		}else {
+			System.out.println("Gikk ikke, den ansatte er allerede sjef i egen avdeling");
+		}
+
+
+	}
 
 }

@@ -3,7 +3,8 @@ package no.hvl.dat107;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDate;
 
@@ -11,7 +12,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "Ansatt", schema = "oblig3")
-
 
 public class Ansatt {
 
@@ -25,24 +25,17 @@ public class Ansatt {
 	private String stilling;
 	private int maanedslonn;
 
-	@Override
-	public String toString() {
-		return "Ansatt{" +
-			"brukerNavn='" + brukerNavn + '\'' +
-			", forNavn='" + forNavn + '\'' +
-			", etterNavn='" + etterNavn + '\'' +
-			", datoAns=" + datoAns +
-			", stilling='" + stilling + '\'' +
-			", maanedslonn=" + maanedslonn +
-			'}';
-	}
+	@ManyToOne
+	@JoinColumn(name = "avdelingId", referencedColumnName = "avdelingId")
+	private Avdeling avd;
+
 
 	public Ansatt() {
 
 	}
 
 	public Ansatt(String brukerNavn, String forNavn, String etterNavn, LocalDate ansettelseDato,
-		String stilling, int maanedslonn) {
+		String stilling, int maanedslonn, Avdeling avdeling) {
 
 		this.brukerNavn = brukerNavn;
 		this.forNavn = forNavn;
@@ -50,6 +43,7 @@ public class Ansatt {
 		this.datoAns = ansettelseDato;
 		this.stilling = stilling;
 		this.maanedslonn = maanedslonn;
+		this.avd = avdeling;
 
 	}
 
@@ -93,13 +87,42 @@ public class Ansatt {
 		this.stilling = stilling;
 	}
 
-	public int getMaanedsloen() {
+	public int getMaanedslonn() {
 		return maanedslonn;
 	}
 
-	public void setMaanedsloen(int maanedsloen) {
+	public void setMaanedslonn(int maanedsloen) {
 		this.maanedslonn = maanedsloen;
 	}
 
+	public int getAid() {
+		return aid;
+	}
 
+	public void setAid(int aid) {
+		this.aid = aid;
+	}
+
+	public Avdeling getAvd() {
+
+		return avd;
+	}
+
+	public void setAvd(Avdeling avd) {
+		this.avd = avd;
+	}
+
+	@Override
+	public String toString() {
+		return
+			"ansattId=" + aid +
+			", brukerNavn='" + brukerNavn + '\'' +
+			", forNavn='" + forNavn + '\'' +
+			", etterNavn='" + etterNavn + '\'' +
+			", datoAns=" + datoAns +
+			", stilling='" + stilling + '\'' +
+			", maanedslonn=" + maanedslonn +
+			", avdelingId=" + avd.getAvdelingId() +
+			'}';
+	}
 }
